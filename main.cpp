@@ -12,12 +12,14 @@ struct Node {
 int convertToInt(char* num);
 int* inputToInt(char* input);
 int* fileToInt(char* fileName);
+int* createSorted(int* array);
 
 int main() {
 	char input[200];
 	char fileName[50];
 	char forC[10];
 	int* array;
+	int* sArray;
 
 	cout << "Please enter whether you would like to input through file or console: ";
 	cin.get(forC, 10);
@@ -38,6 +40,8 @@ int main() {
 	else {
 		cout << "Please enter FILE or CONSOLE." << endl;
 	}	
+
+	sArray = createSorted(array);
 
 	return 0;
 }
@@ -90,3 +94,14 @@ int* fileToInt(char* fileName) {
 		cout << "Unable to open file." << endl;
 	}
 }	
+
+int* createSorted(int* array) {
+	int largest = array[0];
+	int newArray[100];
+	int n = 1;
+	for(int i = 0; i < size_of(array); i++) {
+		if(array[i] > largest) {
+			largest = array[i];
+		}
+	}
+}
