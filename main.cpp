@@ -56,7 +56,7 @@ int* inputToInt(char* input) {
 	int arrayIndex = 0;
 	int array[100];
 	for (int i = 0; i < strlen(input); i++) {
-		if (!isspace(input[i])) {
+		if (!isspace(input[i]) && isdigit(input[i])) {
 			int index = 0;
 			char* num = new char[5];
 			num[index] = input[i];
