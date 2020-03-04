@@ -81,7 +81,7 @@ int* fileToInt(char* fileName) {
 	int* array;
 	ifstream file(fileName);
 	if (file.is_open()) {
-		getline(file, input);
+		file.getline(input, 200);
 		file.close();
 		array = inputToInt(input);	
 		return array;
