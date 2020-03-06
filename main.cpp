@@ -5,14 +5,12 @@
 
 using namespace std;
 
-struct Node {
-	int data;
-};
-
 int convertToInt(char* num);
+void swap(int place1, int place2, int* &array);
+int findLastNode(int* array);
 int* inputToInt(char* input);
 int* fileToInt(char* fileName);
-int* createSorted(int* array);
+int* heapify(int* array);
 
 int main() {
 	char input[200];
@@ -41,7 +39,7 @@ int main() {
 		cout << "Please enter FILE or CONSOLE." << endl;
 	}	
 
-	sArray = createSorted(array);
+	sArray = heapify(array);
 
 	return 0;
 }
@@ -55,6 +53,12 @@ int convertToInt(char* num) {
 	}
 	return fin;
 }	
+
+void swap(int place1, int place2, int* &array) {
+	int temp = array[place1];
+	array[place1] = array[place2];
+	array[place2] = temp;
+}
 
 int* inputToInt(char* input) {
 	int arrayIndex = 0;
@@ -95,13 +99,29 @@ int* fileToInt(char* fileName) {
 	}
 }	
 
-int* createSorted(int* array) {
-	int largest = array[0];
-	int newArray[100];
+int findLastNode(int* array) {
+	int depth = 0;
+	int lastNode;
+	int size = pow(2, depth);
+	while (size_of(array) > size) {
+		num++;
+		size += pow(2, depth);
+	}
+	lastNode = size - pow(2, depth);
+	while (2*lastNode > size_of(array)) {
+		lastNode--;
+	}
+	return lastNode;
+}
+
+int* heapify(int* array) {
+	for (int i = 0; i < size_of(array); i++) {
+	}	
+	array[0] = -1;
 	int n = 1;
-	for(int i = 0; i < size_of(array); i++) {
-		if(array[i] > largest) {
-			largest = array[i];
-		}
+	int largest = array[n];
+	if (largest < array[2n]) {
+		swap(n, 2n, array);
+		largest = array[n];
 	}
 }
