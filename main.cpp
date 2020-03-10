@@ -6,10 +6,10 @@
 using namespace std;
 
 int convertToInt(char* num);
-void swap(int place1, int place2, int* &array);
+void swap(int place1, int place2, int* array);
 //int findLastNode(int* array);
-int* inputToInt(char* input);
-int* fileToInt(char* fileName);
+int inputToInt(char* input, int* array);
+int fileToInt(char* fileName, int* array);
 void heapify(int* array, int index, int size);
 void makeHeap(int* array, int size);
 
@@ -17,7 +17,8 @@ int main() {
 	char input[200];
 	char fileName[50];
 	char forC[10];
-	int* array;
+	int* array = new int[100];
+	int size;
 
 	cout << "Please enter whether you would like to input through file or console: ";
 	cin.get(forC, 10);
@@ -27,19 +28,18 @@ int main() {
 		cout << "Please enter a file name: ";
 		cin.get(fileName, 50);
 		cin.ignore(50, '\n');
-		array = fileToInt(fileName);
+		size = fileToInt(fileName, array);
 	}
 	else if (strcmp(forC, "CONSOLE") == 0) {
 		cout << "Please enter a series of numbers separated by a space: ";
 		cin.get(input, 200);
 		cin.ignore(200, '\n');
-		array = inputToInt(input);	
+		size = inputToInt(input, array);	
 	}
 	else {
 		cout << "Please enter FILE or CONSOLE." << endl;
 	}	
 
-	int size = sizeof(array)/sizeof(array[0]);
 	makeHeap(array, size);
 
 	return 0;
@@ -55,20 +55,19 @@ int convertToInt(char* num) {
 	return fin;
 }	
 
-void swap(int place1, int place2, int* &array) {
+void swap(int place1, int place2, int* array) {
 	int temp = array[place1];
 	array[place1] = array[place2];
 	array[place2] = temp;
 }
 
-int* inputToInt(char* input) {
+int inputToInt(char* input, int* array) {
 	int arrayIndex = 1;
-	int* array = new int[100];
 	array[0] = -1;
 	for (int i = 0; i < strlen(input); i++) {
 		if (!isspace(input[i]) && isdigit(input[i])) {
 			int index = 0;
-			char* num = new char[5];
+			char* num = new char[3];
 			num[index] = input[i];
 			index++;
 			while (!isspace(input[i+1])) {
@@ -76,28 +75,32 @@ int* inputToInt(char* input) {
 				num[index] = input[i];
 			        index++;
 			}
+			num[index] = '\0';
 			array[arrayIndex] = convertToInt(num);
 		        arrayIndex++;
 		}
 	}
+	cout << "Original: ";
 	for (int i = 1; i < arrayIndex; i++) {
-		cout << array[i] << endl;
+		cout << array[i] << ' ';
 	}
-	return array;
+	cout << endl;
+	return arrayIndex;
 }
 
-int* fileToInt(char* fileName) {
+int fileToInt(char* fileName, int* array) {
 	char input[200];
-	int* array;
+	int size;
 	ifstream file(fileName);
 	if (file.is_open()) {
 		file.getline(input, 200);
 		file.close();
-		array = inputToInt(input);	
-		return array;
+		size = inputToInt(input, array);	
+		return size;
 	}
 	else {
 		cout << "Unable to open file." << endl;
+		return -1;
 	}
 }	
 
@@ -119,13 +122,13 @@ int* fileToInt(char* fileName) {
 
 void heapify(int* array, int index, int size) {
 	int compare = index;
-	int left = 2 * index + 1;
-	int right = 2 * index + 2;
+	int left = 2 * index;
+	int right = 2 * index + 1;
 	 
-	if (left < size && array[left] > array[compare]) {
+	if (left <= size && array[left] > array[compare]) {
 		compare = left;
 	}
-	if (right < size && array[right] > array[compare]) {
+	if (right <= size && array[right] > array[compare]) {
 		compare = right;
 	}
 	if (compare != index) {
@@ -148,9 +151,15 @@ void makeHeap(int* array, int size) {
 
 	for (int i = start; i > 0; i--) {
 		heapify(array, i, size);
-	}	
+	}		
 
+	//for (int i = size; i > 0; i--) {
+		
+
+	cout << "Heapsort: ";
 	for (int i = 1; i < size; i++) {
-		cout << array[i] << endl;
+		cout << array[i] << ' ';
+		array[i] = -1;
 	}
+	cout << endl;
 }
