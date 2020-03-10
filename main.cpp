@@ -1,3 +1,8 @@
+/*
+ * Emma Shu, 3/10/2020: Heap utilizes a heapsort algorithm to build a max heap from an
+ * input by converting it to an integer array and building the heap.
+ */
+
 #include <iostream>
 #include <cstring>
 #include <cmath>
@@ -45,7 +50,7 @@ int main() {
 	return 0;
 }
 
-int convertToInt(char* num) {
+int convertToInt(char* num) { // Using a char array, make an int.
 	int fin = 0;
 	int power = strlen(num) - 1;
 	for (int i = 0; i < strlen(num); i++) {
@@ -55,13 +60,13 @@ int convertToInt(char* num) {
 	return fin;
 }	
 
-void swap(int place1, int place2, int* array) {
+void swap(int place1, int place2, int* array) { // Exchange two nodes in an array.
 	int temp = array[place1];
 	array[place1] = array[place2];
 	array[place2] = temp;
 }
 
-int inputToInt(char* input, int* array) {
+int inputToInt(char* input, int* array) { // Take the input and convert it into an int array.
 	int arrayIndex = 1;
 	array[0] = -1;
 	for (int i = 0; i < strlen(input); i++) {
@@ -88,7 +93,7 @@ int inputToInt(char* input, int* array) {
 	return arrayIndex;
 }
 
-int fileToInt(char* fileName, int* array) {
+int fileToInt(char* fileName, int* array) { // File input to int array, utilizes input to int.
 	char input[200];
 	int size;
 	ifstream file(fileName);
@@ -120,10 +125,10 @@ int fileToInt(char* fileName, int* array) {
 	return lastNode;
 }*/
 
-void heapify(int* array, int index, int size) {
-	int compare = index;
-	int left = 2 * index;
-	int right = 2 * index + 1;
+void heapify(int* array, int index, int size) { // Compares to child nodes and swaps accordingly, recursive.
+	int compare = index; // Original node.
+	int left = 2 * index; // Left child node.
+	int right = 2 * index + 1; // Right child node.
 	 
 	if (left <= size && array[left] > array[compare]) {
 		compare = left;
@@ -137,7 +142,7 @@ void heapify(int* array, int index, int size) {
 	}
 }
 
-void makeHeap(int* array, int size) {
+void makeHeap(int* array, int size) { // Build a heap, pseudocode used: https://www.cc.gatech.edu/classes/cs3158_98_fall/heapsort.html
 	/*for (int i = 0; i < size_of(array); i++) {
 	}	
 	array[0] = -1;
@@ -147,7 +152,7 @@ void makeHeap(int* array, int size) {
 		swap(n, 2n, array);
 		largest = array[n];
 	}*/
-	int start = (size/2) - 1;
+	int start = (size/2) - 1; // Start at the first non-leaf node.
 
 	for (int i = start; i > 0; i--) {
 		heapify(array, i, size);
