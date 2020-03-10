@@ -157,8 +157,17 @@ void makeHeap(int* array, int size) { // Build a heap, pseudocode used: https://
 	for (int i = start; i > 0; i--) {
 		heapify(array, i, size);
 	}		
-
-	//for (int i = size; i > 0; i--) {
+	
+	int span = size / 2 + 1;
+	int depth = log(span) / log(2);
+		
+	for (int i = size; i > 0; i--) {
+		int index = 0;
+		while (index < depth) {
+			cout << '\t';
+			index++;
+		}
+	}
 		
 
 	cout << "Heapsort: ";
