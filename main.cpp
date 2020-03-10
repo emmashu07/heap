@@ -7,17 +7,17 @@ using namespace std;
 
 int convertToInt(char* num);
 void swap(int place1, int place2, int* &array);
-int findLastNode(int* array);
+//int findLastNode(int* array);
 int* inputToInt(char* input);
 int* fileToInt(char* fileName);
-int* heapify(int* array);
+void heapify(int* array, int index, int size);
+void makeHeap(int* array, int size);
 
 int main() {
 	char input[200];
 	char fileName[50];
 	char forC[10];
 	int* array;
-	int* sArray;
 
 	cout << "Please enter whether you would like to input through file or console: ";
 	cin.get(forC, 10);
@@ -39,7 +39,8 @@ int main() {
 		cout << "Please enter FILE or CONSOLE." << endl;
 	}	
 
-	sArray = heapify(array);
+	int size = sizeof(array)/sizeof(array[0]);
+	makeHeap(array, size);
 
 	return 0;
 }
@@ -62,7 +63,7 @@ void swap(int place1, int place2, int* &array) {
 
 int* inputToInt(char* input) {
 	int arrayIndex = 1;
-	int array[100];
+	int* array = new int[100];
 	array[0] = -1;
 	for (int i = 0; i < strlen(input); i++) {
 		if (!isspace(input[i]) && isdigit(input[i])) {
@@ -79,7 +80,7 @@ int* inputToInt(char* input) {
 		        arrayIndex++;
 		}
 	}
-	for (int i = 0; i < arrayIndex; i++) {
+	for (int i = 1; i < arrayIndex; i++) {
 		cout << array[i] << endl;
 	}
 	return array;
@@ -116,7 +117,24 @@ int* fileToInt(char* fileName) {
 	return lastNode;
 }*/
 
-void heapify(int* &array, int size) {
+void heapify(int* array, int index, int size) {
+	int compare = index;
+	int left = 2 * index + 1;
+	int right = 2 * index + 2;
+	 
+	if (left < size && array[left] > array[compare]) {
+		compare = left;
+	}
+	if (right < size && array[right] > array[compare]) {
+		compare = right;
+	}
+	if (compare != index) {
+		swap(compare, index, array);
+		heapify(array, compare, size);
+	}
+}
+
+void makeHeap(int* array, int size) {
 	/*for (int i = 0; i < size_of(array); i++) {
 	}	
 	array[0] = -1;
@@ -129,18 +147,10 @@ void heapify(int* &array, int size) {
 	int start = (size/2) - 1;
 
 	for (int i = start; i > 0; i--) {
-		int compare = i;
-		int left = 2 * i + 1;
-		int right = 2 * i + 2;
-		 
-		if (left < size && array[left] > array[compare]) {
-			compare = left;
-		}
-		if (right < size && array[right] > array[compare]) {
-			compare = right;
-		}
-		if (compare != i) {
-			swap(compare, i, array);
-		}
+		heapify(array, i, size);
 	}	
+
+	for (int i = 1; i < size; i++) {
+		cout << array[i] << endl;
+	}
 }
