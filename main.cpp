@@ -61,8 +61,9 @@ void swap(int place1, int place2, int* &array) {
 }
 
 int* inputToInt(char* input) {
-	int arrayIndex = 0;
+	int arrayIndex = 1;
 	int array[100];
+	array[0] = -1;
 	for (int i = 0; i < strlen(input); i++) {
 		if (!isspace(input[i]) && isdigit(input[i])) {
 			int index = 0;
@@ -99,7 +100,8 @@ int* fileToInt(char* fileName) {
 	}
 }	
 
-int findLastNode(int* array) {
+// Failed algorithm.
+/*int findLastNode(int* array) {
 	int depth = 0;
 	int lastNode;
 	int size = pow(2, depth);
@@ -112,10 +114,10 @@ int findLastNode(int* array) {
 		lastNode--;
 	}
 	return lastNode;
-}
+}*/
 
-int* heapify(int* array) {
-	for (int i = 0; i < size_of(array); i++) {
+void heapify(int* &array, int size) {
+	/*for (int i = 0; i < size_of(array); i++) {
 	}	
 	array[0] = -1;
 	int n = 1;
@@ -123,5 +125,22 @@ int* heapify(int* array) {
 	if (largest < array[2n]) {
 		swap(n, 2n, array);
 		largest = array[n];
-	}
+	}*/
+	int start = (size/2) - 1;
+
+	for (int i = start; i > 0; i--) {
+		int compare = i;
+		int left = 2 * i + 1;
+		int right = 2 * i + 2;
+		 
+		if (left < size && array[left] > array[compare]) {
+			compare = left;
+		}
+		if (right < size && array[right] > array[compare]) {
+			compare = right;
+		}
+		if (compare != i) {
+			swap(compare, i, array);
+		}
+	}	
 }
