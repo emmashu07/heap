@@ -152,10 +152,17 @@ void makeHeap(int* array, int size) { // Build a heap, pseudocode used: https://
 		swap(n, 2n, array);
 		largest = array[n];
 	}*/
-	int start = (size/2) - 1; // Start at the first non-leaf node.
+	//int start = (size/2) - 1; // Start at the first non-leaf node.
 
-	for (int i = start; i > 0; i--) {
-		heapify(array, i, size);
+	int index;
+
+	for (int i = 1; i < size; i++) {
+		//heapify(array, i, size);
+		index = i;
+		while (index != 1 && array[index] > array[index/2]) {
+			swap(index, index/2, array);
+			index = index/2;
+		}	
 	}		
 	
 	/*int span = size / 2 + 1;
