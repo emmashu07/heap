@@ -15,8 +15,10 @@ void swap(int place1, int place2, int* array);
 //int findLastNode(int* array);
 int inputToInt(char* input, int* array);
 int fileToInt(char* fileName, int* array);
-void heapify(int* array, int index, int size);
-void makeHeap(int* array, int size);
+void output(int* array, int index, int size);
+void build(int* array, int size);
+void printHeap(int* array, int index, int size);
+void printTab(int index);
 
 int main() {
 	char input[200];
@@ -45,7 +47,7 @@ int main() {
 		cout << "Please enter FILE or CONSOLE." << endl;
 	}	
 
-	makeHeap(array, size);
+	build(array, size);
 
 	return 0;
 }
@@ -125,7 +127,29 @@ int fileToInt(char* fileName, int* array) { // File input to int array, utilizes
 	return lastNode;
 }*/
 
-void heapify(int* array, int index, int size) { // Compares to child nodes and swaps accordingly, recursive.
+void printTab(int index) {
+	int tabNum = log(index)/log(2); 
+	int i = 0;
+	while (i < tabNum) {
+		cout << '\t';
+		i++;
+	}
+}
+
+void printHeap(int* array, int index, int size) {
+	if (2*index > size) { // Has no children.
+		printTab(index);		
+		cout << array[index] << endl;
+		return;
+	}
+	printHeap(array, 2*index + 1, size);
+	printTab(index);
+	cout << array[index] << endl;
+	printHeap(array, 2*index, size);
+}
+	
+
+void output(int* array, int index, int size) { // Compares to child nodes and swaps accordingly, recursive.
 	int compare = index; // Original node.
 	int left = 2 * index; // Left child node.
 	int right = 2 * index + 1; // Right child node.
@@ -138,11 +162,11 @@ void heapify(int* array, int index, int size) { // Compares to child nodes and s
 	}
 	if (compare != index) {
 		swap(compare, index, array);
-		heapify(array, compare, size);
+		output(array, compare, size);
 	}
 }
 
-void makeHeap(int* array, int size) { // Build a heap, pseudocode used: https://www.cc.gatech.edu/classes/cs3158_98_fall/heapsort.html
+void build(int* array, int size) { // Build a heap, pseudocode used: https://www.cc.gatech.edu/classes/cs3158_98_fall/heapsort.html
 	/*for (int i = 0; i < size_of(array); i++) {
 	}	
 	array[0] = -1;
@@ -152,6 +176,7 @@ void makeHeap(int* array, int size) { // Build a heap, pseudocode used: https://
 		swap(n, 2n, array);
 		largest = array[n];
 	}*/
+	
 	//int start = (size/2) - 1; // Start at the first non-leaf node.
 
 	int index;
@@ -163,24 +188,13 @@ void makeHeap(int* array, int size) { // Build a heap, pseudocode used: https://
 			swap(index, index/2, array);
 			index = index/2;
 		}	
-	}		
-	
-	/*int span = size / 2 + 1;
-	int depth = log(span) / log(2);
-		
-	for (int i = size; i > 0; i--) {
-		int index = 0;
-		while (index < depth) {
-			cout << '\t';
-			index++;
-		}
-	}*/
-		
+	}			
 
-	cout << "Heapsort: ";
+	cout << "Heap: ";
 	for (int i = 1; i < size; i++) {
 		cout << array[i] << ' ';
-		array[i] = -1;
 	}
 	cout << endl;
+
+	printHeap(array, 1, size);
 }
